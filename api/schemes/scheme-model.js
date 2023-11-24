@@ -99,11 +99,23 @@ function findById(scheme_id) { // EXERCISE B
       .orderBy('st.step_number', 'asc')
       .select('sc.scheme_name', 'st.*')
       .then(rows => {
-        if (rows.length === 0) {
-          return { scheme_id, scheme_name: "Unknown", steps: [] };
+        // Scenario 1: Scheme does not exist
+        if (!rows || rows.length === 0) {
+          return null;
         }
+  
+        // Scenario 2: Scheme exists but has no steps
+        if (!rows[0].step_id) {
+          return { 
+            scheme_id: scheme_id, 
+            scheme_name: rows[0].scheme_name, 
+            steps: [] 
+          };
+        }
+  
+        // Scenario 3: Scheme exists and has steps
         return {
-          scheme_id: rows[0].scheme_id,
+          scheme_id: scheme_id,
           scheme_name: rows[0].scheme_name,
           steps: rows.map(row => ({
             step_id: row.step_id,
