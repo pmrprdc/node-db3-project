@@ -13,7 +13,7 @@ const checkSchemeId = async(req, res, next) => {
   try {
     const { scheme_id } = req.params;
     const scheme = await Schemes.findById(scheme_id);
-    console.log(scheme)
+    
     if (scheme) {
       req.scheme = scheme;
       next();
@@ -40,7 +40,7 @@ const validateScheme = (req, res, next) => {
   if (scheme_name) {
     next();
   } else {
-    res.status(400).json({ message: "invalid step" });
+    res.status(400).json({ message: "invalid scheme_name" });
   }
 }
 
@@ -58,7 +58,7 @@ const validateStep = (req, res, next) => {
   if (instructions && typeof step_number === 'number') {
     next();
   } else {
-    res.status(400).json({ message: "Invalid step" });
+    res.status(400).json({ message: "invalid step" });
   }
 }
 
