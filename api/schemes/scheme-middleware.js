@@ -52,11 +52,17 @@ const validateScheme = (req, res, next) => {
     "message": "invalid step"
   }
 */
-const validateStep = (req, res, next) => {
+function validateStep(req, res, next) {
   const { step_number, instructions } = req.body;
-  if (step_number == null || typeof step_number !== 'number' || !instructions || typeof instructions !== 'string') {
+
+  if (typeof step_number !== 'number' || step_number < 1 || !Number.isInteger(step_number)) {
     return res.status(400).json({ message: "invalid step" });
   }
+
+  if (typeof instructions !== 'string' || !instructions.trim()) {
+    return res.status(400).json({ message: "invalid step" });
+  }
+
   next();
 }
 
