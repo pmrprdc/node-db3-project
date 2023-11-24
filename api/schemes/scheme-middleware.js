@@ -53,11 +53,11 @@ const validateScheme = (req, res, next) => {
   }
 */
 const validateStep = (req, res, next) => {
-  const { scheme_name } = req.body;
-  if (scheme_name) {
+  const { instructions, step_number } = req.body;
+  if (instructions && typeof step_number === 'number') {
     next();
   } else {
-    res.status(400).json({ message: "invalid step" });
+    res.status(400).json({ message: "Invalid step data" });
   }
 }
 
